@@ -47,13 +47,31 @@ class User extends Authenticatable
         return null;
     }
 
+    public function applicationUrl()
+    {
+        if ($this->application()) {
+            return url('/documents/' . $this->id . '/' . $this->application()->filename);
+        }
+        return null;
+    }
+
+    public function application()
+    {
+        return $this->documents()->where('type', 'application')->first();
+    }
+
     public function isAdmin()
     {
-        return $this->role == 'Admin';
+        return $this->role == 'admin';
     }
 
     public function isHR()
     {
         return $this->role == 'Human Resources';
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
     }
 }

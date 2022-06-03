@@ -18,6 +18,7 @@ class AddUser extends Component
     public $photo;
     public $status = 1;
     public $role = 'Admin';
+    public $application;
 
     public function submit()
     {
@@ -29,11 +30,12 @@ class AddUser extends Component
             'status' => 'required|boolean',
             'role' => 'required|string',
             'photo' => 'image|max:1024', //1MB Max
+            'application' => 'file|mimes:pdf|max:1024', //1MB Max
         ]);
 
         $filename = $this->photo->store('public');
 
-        User::create([
+        $user = User::create([
             'name'  => $this->name,
             'email'  => $this->email,
             'department'  => $this->department,
@@ -42,6 +44,22 @@ class AddUser extends Component
             'role'  => $this->role,
             'photo'  => $filename,
             'password'  => Hash::make('password'),
+        ]);
+
+
+        // filename
+        $filename = pathinfo($this->application->getClientOriginalName(), PATHINFO_FILENAME) . '_' . now()->timestamp . '.' . $this->application->getClientOriginalExtension();
+
+
+        // Store it in public
+        $this->application->storeAs('public', '/documents/' . $user->id . '/' . $filename);
+
+        // create document id db
+        $user->documents()->create([
+            'type' => 'application',
+            'filename' => $filename,
+            'extension' => $this->application->getClientOriginalExtension(),
+            'size' => $this->application->getSize(),
         ]);
 
 
