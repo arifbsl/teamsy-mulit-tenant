@@ -52,6 +52,10 @@ class Register extends Component
         return redirect()->intended(route('home'));
     }
 
+    public function updated($value) {
+        $this->resetErrorBag($value);
+    }
+
     public function render()
     {
         return view('livewire.auth.register')->extends('layouts.auth');
