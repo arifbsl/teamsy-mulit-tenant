@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('content')
+@section('body')
   <!-- This example requires Tailwind CSS v2.0+ -->
   <div class="relative bg-white overflow-hidden">
     <div class="max-w-7xl mx-auto">
