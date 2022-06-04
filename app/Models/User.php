@@ -44,7 +44,14 @@ class User extends Authenticatable
         if ($this->photo) {
             return Storage::disk('public')->url($this->photo);
         }
-        return null;
+        return 'https://avatars.dicebear.com/api/initials/' . $this->name . '.svg';
+    }
+
+    public static function search($query)
+    {
+        return empty($query) ? static::query()
+            : static::where('name', 'like', '%' . $query . '%')
+            ->orWhere('email', 'like', '%' . $query . '%');
     }
 
     public function applicationUrl()
@@ -62,7 +69,7 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->role == 'admin';
+        return $this->role == 'Admin';
     }
 
     public function isHR()

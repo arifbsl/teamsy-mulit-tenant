@@ -16,4 +16,9 @@ class Document extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function privateUrl()
+    {
+        return url('/documents/' . $this->user_id . '/' . $this->filename);
+    }
 }

@@ -29,7 +29,8 @@
 
     <body>
         @yield('body')
-
+        
+        @stack('scripts')
         @livewireScripts
     </body>
 </html>
