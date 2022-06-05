@@ -12,6 +12,7 @@ class LogoutController extends Controller
     public function __invoke(): RedirectResponse
     {
         Auth::logout();
+        session()->forget('tenant_id');
 
         return redirect(route('home'));
     }
